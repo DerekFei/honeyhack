@@ -31,16 +31,18 @@ var locationData = [{
     title: 'Meat Loaf Black Belt',
     manager: 'Derek Hsu',
     username:'Kevin Fei',
-    lng: 133.5,
-    lat: 30,
+    lng: 133.52921,
+    lat: 30.24231,
+    timestamp: '2017-12-13 13:20:21.123'
 },
 {
     hid: 'H230493',
     title: 'Meat Loaf Black Belt',
     manager: 'Derek Hsu',
     username:'Kevin Fei',
-    lng: 133.5,
-    lat: 30,
+    lng: 133.51233,
+    lat: 30.11324,
+    timestamp: '2017-12-13 13:20:21.123'
 }];
 
 var envData = [{
@@ -51,7 +53,8 @@ var envData = [{
     temp: 45,
     humi: 35,
     noise: 65,
-    light: 3000
+    light: 3000,
+    timestamp: '2017-12-13 13:20:21.123'
 },
 {
     id: '5313213',
@@ -61,7 +64,8 @@ var envData = [{
     temp: 25,
     humi: 39,
     noise: 35,
-    light: 2000
+    light: 2000,
+    timestamp: '2017-12-13 13:20:21.123'
 }];
 
 //Disable https and redirect to the http
