@@ -165,7 +165,7 @@ app.post('/api/postEnvData', (req, res) => {
         noise: req.query.noise,
         light: req.query.light,
         lng: req.query.lng,
-        lat: req.qeury.lat
+        lat: req.query.lat
     };
     console.log(data);
 
