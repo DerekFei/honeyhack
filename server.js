@@ -68,6 +68,14 @@ var envData = [{
     timestamp: '2017-12-13 13:20:21'
 }];
 
+var warningData = [{
+    msg: 'Master Sensor Noisse Changes Rapidly',
+    timestamp: '2017-12-13 13:20:21'
+},{
+    msg: 'Master Sensor Humidity Changes Rapidly',
+    timestamp: '2017-12-13 13:20:21'
+}];
+
 var hisLoc = [];
 var hisEnv = [];
 
@@ -90,6 +98,10 @@ app.get('/api/getAllLocations', (req, res) => {
 
 app.get('/api/getAllEnv', (req, res) => {
     res.send(envData);
+});
+
+app.get('/api/getAllWarnings', (req, res) => {
+    res.send(warningData);
 });
 
 
