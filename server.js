@@ -68,6 +68,9 @@ var envData = [{
     timestamp: '2017-12-13 13:20:21'
 }];
 
+var hisLoc = [];
+var hisEnv = [];
+
 //Disable https and redirect to the http
 app.use((req, res, next) => {
     if (req.headers['x-forwarded-proto'] === 'https') {
@@ -93,7 +96,16 @@ app.get('/api/getAllEnv', (req, res) => {
 app.post('/api/postUserLocation', (req, res) => {
     const data = req.query;
     console.log(data);
+    //if the preivous data exist, push the previous data to the historical data
+    for(var x=0; x<result.length; x++) 
+    {      
+        if(locationData[x].hid = data.hid){
+            hisLoc.push(locationData[x]);
+            locationData.splice(x, 1);
+        }
+    }   
     locationData.push(data);
+    
     res.send('Thanks babe');
 });
 
@@ -101,8 +113,26 @@ app.post('/api/postUserLocation', (req, res) => {
 app.post('/api/postEnvData', (req, res) => {
     const data = req.query;
     console.log(data);
-    locationData.push(data);
+
+    //if the preivous data exist, push the previous data to the historical data
+    for(var x=0; x<result.length; x++) 
+    {      
+        if(envData[x].hid = data.id){
+            hisEnv.push(envData[x]);
+            envData.splice(x, 1);
+        }
+    }     
+    envData.push(data);
+
     res.send('Thanks babe');
+});
+
+app.get('/api/getHisLoc', (req, res) => {
+    res.send(hisLoc);
+});
+
+app.get('/api/getHisEnv', (req, res) => {
+    res.send(hisEnv);
 });
 
 app.listen(PORT, () => {
