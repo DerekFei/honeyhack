@@ -138,6 +138,10 @@ app.get('/api/getAllWarnings', (req, res) => {
     res.send(warningData);
 });
 
+app.get('/api/getDismissWarnings', (req, res) => {
+    res.send(warningData);
+});
+
 
 app.post('/api/postUserLocation', (req, res) => {
     const data = req.query;
@@ -157,7 +161,16 @@ app.post('/api/postUserLocation', (req, res) => {
 
 
 app.post('/api/postEnvData', (req, res) => {
-    const data = req.query;
+    const data = {
+        id: req.query.id,
+        name: req.query.name,
+        temp: req.query.temp,
+        humi: req.query.humi,
+        noise: req.query.noise,
+        light: req.query.light,
+        lng: req.query.lng,
+        lat: req.qeury.lat
+    };
     console.log(data);
 
     //if the preivous data exist, push the previous data to the historical data
