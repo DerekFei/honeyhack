@@ -156,7 +156,7 @@ app.post('/api/postUserLocation', (req, res) => {
 });
 
 
-app.post('/api/postEnvData', (req, res) => {
+app.get('/api/postEnvData', (req, res) => {
     const data = {
         id: req.query.id,
         name: req.query.name,
