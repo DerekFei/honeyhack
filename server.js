@@ -175,7 +175,7 @@ app.delete('/api/delHisEnv', (req, res) => {
         }
     }     
     res.send('Thanks Babe');
-});e
+});
 
 app.patch('/api/reset', (req, res) => {
     hisLoc = [];
