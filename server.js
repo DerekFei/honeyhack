@@ -24,7 +24,7 @@ const express = require('express');
 //const url = 'mongodb://localhost:27017/local';
 
 const app = express();
-const PORT = 3500;
+const PORT = process.env.PORT || 3500;
 
 //Disable https and redirect to the http
 app.use((req, res, next) => {
