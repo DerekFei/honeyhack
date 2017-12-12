@@ -1,3 +1,5 @@
+import { encode } from 'punycode';
+
 
 
 /* This is an sample Express server with default MongoDB setup
@@ -69,15 +71,47 @@ var envData = [{
 }];
 
 var warningData = [{
-    msg: 'Master Sensor Noisse Changes Rapidly',
+    id: 'H230493',
+    msg: 'Kevin has been eating cookies for more than 30 min',
     timestamp: '2017-12-13 13:20:21'
 },{
+    id: '2939292',
     msg: 'Master Sensor Humidity Changes Rapidly',
     timestamp: '2017-12-13 13:20:21'
 }];
 
 var hisLoc = [];
 var hisEnv = [];
+
+let myVar = setInterval(function(){ edgeProcessor() }, 1000);
+
+function envDeviationUnit() {
+
+}
+
+function locDeviationUnit() {
+
+}
+
+function envConnUnit() {
+
+}
+
+function locConnUnit() {
+
+}
+
+
+function edgeProcessor() {
+    envDeviationUnit();
+    locDeviationUnit();
+    envConnUnit();
+    locConnUnit();
+}
+
+function stopFunction() {
+    clearInterval(myVar);
+}
 
 //Disable https and redirect to the http
 app.use((req, res, next) => {
