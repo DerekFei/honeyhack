@@ -97,7 +97,7 @@ app.post('/api/postUserLocation', (req, res) => {
     const data = req.query;
     console.log(data);
     //if the preivous data exist, push the previous data to the historical data
-    for(var x=0; x<result.length; x++) 
+    for(var x=0; x<locationData.length; x++) 
     {      
         if(locationData[x].hid = data.hid){
             hisLoc.push(locationData[x]);
@@ -115,7 +115,7 @@ app.post('/api/postEnvData', (req, res) => {
     console.log(data);
 
     //if the preivous data exist, push the previous data to the historical data
-    for(var x=0; x<result.length; x++) 
+    for(var x=0; x<envData.length; x++) 
     {      
         if(envData[x].hid = data.id){
             hisEnv.push(envData[x]);
@@ -128,12 +128,63 @@ app.post('/api/postEnvData', (req, res) => {
 });
 
 app.get('/api/getHisLoc', (req, res) => {
-    res.send(hisLoc);
+    const hid = req.query.hid;
+    var resultArray = [];
+    for(var x=0; x<hisLoc.length; x++) 
+    {      
+        if(hisLoc[x].hid = hid){
+            resultArray.push(hisLoc[x]);
+        }
+    }     
+
+    res.send(resultArray);
 });
 
 app.get('/api/getHisEnv', (req, res) => {
-    res.send(hisEnv);
+    const id = req.query.id;
+    var resultArray = [];
+    for(var x=0; x<hisEnv.length; x++) 
+    {      
+        if(hisEnv[x].hid = hid){
+            resultArray.push(hisEnv[x]);
+        }
+    }     
+    res.send(resultArray);
 });
+
+app.delete('/api/delHisLoc', (req, res) => {
+    const hid = req.query.hid;
+    var resultArray = [];
+    for(var x=0; x<hisLoc.length; x++) 
+    {      
+        if(hisLoc[x].hid = hid){
+            hisLoc.splice(x, 1);
+        }
+    }     
+
+    res.send('Thanks Babe');
+});
+
+app.delete('/api/delHisEnv', (req, res) => {
+    const id = req.query.id;
+    var resultArray = [];
+    for(var x=0; x<hisEnv.length; x++) 
+    {      
+        if(hisEnv[x].hid = hid){
+            hisEnv.splice(x, 1);
+        }
+    }     
+    res.send('Thanks Babe');
+});e
+
+app.patch('/api/reset', (req, res) => {
+    hisLoc = [];
+    hisEnv = [];
+    locationData = [];
+    envData = [];
+    res.send('Nothing left');
+});
+
 
 app.listen(PORT, () => {
     console.log(`Express server is listening on port: ${PORT}`);
