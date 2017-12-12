@@ -1,0 +1,19 @@
+{
+  "name": "turnovermanager",
+  "version": "1.0.0",
+  "description": "Intern Project",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "karma start"
+  },
+  "author": "Derek Fei",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.26"
+  },
+  "devDependencies": {}
+}
