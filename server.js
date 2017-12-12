@@ -1,7 +1,3 @@
-import { encode } from 'punycode';
-
-
-
 /* This is an sample Express server with default MongoDB setup
 You should not use the code directly from the endpoint that was
 commented out. The commented out section is an sample to make
