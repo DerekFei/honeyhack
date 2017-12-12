@@ -26,6 +26,44 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3500;
 
+var locationData = [{
+    hid: 'H230493',
+    title: 'Meat Loaf Black Belt',
+    manager: 'Derek Hsu',
+    username:'Kevin Fei',
+    lng: 133.5,
+    lat: 30,
+},
+{
+    hid: 'H230493',
+    title: 'Meat Loaf Black Belt',
+    manager: 'Derek Hsu',
+    username:'Kevin Fei',
+    lng: 133.5,
+    lat: 30,
+}];
+
+var envData = [{
+    id: '3343211',
+    name: 'Asmb Line II',
+    lng: 123.33333,
+    lat: 23.44422,
+    temp: 45,
+    humi: 35,
+    noise: 65,
+    light: 3000
+},
+{
+    id: '5313213',
+    name: 'Prod Line B',
+    lng: 133.33333,
+    lat: 23.44422,
+    temp: 25,
+    humi: 39,
+    noise: 35,
+    light: 2000
+}];
+
 //Disable https and redirect to the http
 app.use((req, res, next) => {
     if (req.headers['x-forwarded-proto'] === 'https') {
@@ -39,31 +77,27 @@ app.use((req, res, next) => {
 
 
 app.get('/api/getAllLocations', (req, res) => {
-    const dummy = [
-        {
-            hid: 'H230493',
-            title: 'Meat Loaf Black Belt',
-            manager: 'Derek Hsu',
-            username:'Kevin Fei',
-            lng: 133.5,
-            lat: 30,
-        },
-        {
-            hid: 'H230493',
-            title: 'Meat Loaf Black Belt',
-            manager: 'Derek Hsu',
-            username:'Kevin Fei',
-            lng: 133.5,
-            lat: 30,
-        }
-    ]
-    //console.log(bag);
-    res.send(dummy);
+    res.send(locationData);
+});
+
+
+app.get('/api/getAllEnv', (req, res) => {
+    res.send(envData);
 });
 
 
 app.post('/api/postUserLocation', (req, res) => {
-    //console.log(bag);
+    const data = req.query;
+    console.log(data);
+    locationData.push(data);
+    res.send('Thanks babe');
+});
+
+
+app.post('/api/postEnvData', (req, res) => {
+    const data = req.query;
+    console.log(data);
+    locationData.push(data);
     res.send('Thanks babe');
 });
 
