@@ -33,7 +33,7 @@ var locationData = [{
     username:'Kevin Fei',
     lng: 133.52921,
     lat: 30.24231,
-    timestamp: '2017-12-13 13:20:21.123'
+    timestamp: '2017-12-13 13:20:21'
 },
 {
     hid: 'H230493',
@@ -42,7 +42,7 @@ var locationData = [{
     username:'Kevin Fei',
     lng: 133.51233,
     lat: 30.11324,
-    timestamp: '2017-12-13 13:20:21.123'
+    timestamp: '2017-12-13 13:20:21'
 }];
 
 var envData = [{
@@ -54,7 +54,7 @@ var envData = [{
     humi: 35,
     noise: 65,
     light: 3000,
-    timestamp: '2017-12-13 13:20:21.123'
+    timestamp: '2017-12-13 13:20:21'
 },
 {
     id: '5313213',
@@ -65,7 +65,7 @@ var envData = [{
     humi: 39,
     noise: 35,
     light: 2000,
-    timestamp: '2017-12-13 13:20:21.123'
+    timestamp: '2017-12-13 13:20:21'
 }];
 
 //Disable https and redirect to the http
