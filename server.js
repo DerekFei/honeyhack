@@ -21,6 +21,12 @@ var math = require('mathjs');
 
 //Mongodb defuat server url
 //const url = 'mongodb://localhost:27017/local';
+var limdu = require('limdu');
+var trainningData = require('./traningData.js');
+var dangerLevelClassifier = new limdu.classifiers.NeuralNetwork();
+
+colorClassifier.trainBatch(trainningData);
+    
 
 const app = express();
 const PORT = process.env.PORT || 3500;
@@ -186,7 +192,7 @@ app.get('/api/getAllWarnings', (req, res) => {
     res.send(warningData);
 });
 
-app.post('/api/dismissWarning', (req, res) => {
+app.delete('/api/dismissWarning', (req, res) => {
     if(!req.query.warningId){
         res.send('must provide a warning Id');
     }
