@@ -239,7 +239,7 @@ app.post('/api/postUserLocation', (req, res) => {
     }
     data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envData[7007].temp , humi: envData[7007].humi, noise: envData[7007].noise , light: envData[7007].light})[0];
     locationData.push(data);
-    
+    console.log("here");
     res.send('Thanks babe');
 });
 
