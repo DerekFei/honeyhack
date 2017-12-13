@@ -28,7 +28,7 @@ console.log('training data');
 dangerLevelClassifier.trainBatch(trainningData);
 console.log('training finished');
 console.log(dangerLevelClassifier.classify({  lng: 33.74000, lat: -84.384110, temp:60, humi:40, noise: 40, light: 900}));  // 0.99 - almost white
-console.log('asdf');
+
 
 const app = express();
 const PORT = process.env.PORT || 3500;
