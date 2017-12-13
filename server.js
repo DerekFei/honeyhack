@@ -192,7 +192,7 @@ app.get('/api/getAllWarnings', (req, res) => {
     res.send(warningData);
 });
 
-app.delete('/api/dismissWarning', (req, res) => {
+app.use('/api/dismissWarning', (req, res) => {
     if(!req.query.warningId){
         res.send('must provide a warning Id');
     }
