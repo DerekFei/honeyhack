@@ -16,6 +16,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 
 const express = require('express');
+var math = require('mathjs');
 //const Client = require('mongodb').MongoClient;
 
 //Mongodb defuat server url
@@ -68,21 +69,49 @@ var envData = [{
 
 var warningData = [{
     id: 'H230493',
+    type: 'danger',
     msg: 'Kevin has been eating cookies for more than 30 min',
     timestamp: '2017-12-13 13:20:21'
 },{
     id: '2939292',
+    type: 'temp',
     msg: 'Master Sensor Humidity Changes Rapidly',
     timestamp: '2017-12-13 13:20:21'
 }];
 
-var hisLoc = [];
-var hisEnv = [];
+var hisLoc = {};
+var hisEnv = {};
+
+var tempstd={};
+var humistd={};
+var noisestd={};
+var lightstd={};
 
 let myVar = setInterval(function(){ edgeProcessor() }, 1000);
 
 function envDeviationUnit() {
+    for(var x=0; x<hisEnv.length; x++) {      
+        
+    }   
+    Object.keys(hisEnv).forEach(function(key) {
+        console.log('Key : ' + key + ', Value : ' + hisEnv[key]);
+        var tempArray = [];
+        var humiArray = [];
+        var noiseArray = [];
+        var lightArray = [];
 
+        for(var x=0; x<hisEnv[key].length; x++) {      
+            tempArray.push(hisEnv[key][x].temp);
+            humiArray.push(hisEnv[key][x].humi);
+            noiseArray.push(hisEnv[key][x].noise);
+            lightArray.push(hisEnv[key][x].light);
+        }
+
+        tempstd.key = math.std(tempArray);
+        humistd.key = math.std(humiArray);
+        noisestd.key = math.std(noiseArray);
+        lightstd.key = math.std(lightArray);
+    })
 }
 
 function locDeviationUnit() {
@@ -146,7 +175,15 @@ app.post('/api/postUserLocation', (req, res) => {
     for(var x=0; x<locationData.length; x++) 
     {      
         if(locationData[x].hid = data.hid){
-            hisLoc.push(locationData[x]);
+            if(hisLoc[locationData[x].id]){
+                if(hisLoc[locationData[x].id].length >= 600){
+                    hisEnv.shift();
+                }
+            }else{
+                hisLoc[locationData[x].id] = [];
+            }
+
+            hisLoc[locationData[x].id].push(locationData[x]);
             locationData.splice(x, 1);
         }
     }   
@@ -172,9 +209,99 @@ app.get('/api/postEnvData', (req, res) => {
     //if the preivous data exist, push the previous data to the historical data
     for(var x=0; x<envData.length; x++) 
     {      
-        if(envData[x].hid = data.id){
-            hisEnv.push(envData[x]);
+        if(envData[x].id == data.id){
+            const difftemp = Math.abs(data.temp - envData[x].temp);
+            const diffhumi = Math.abs(data.humi - envData[x].humi);
+            const diffnoise = Math.abs(data.noise - envData[x].noise);
+            const difflight = Math.abs(data.light - envData[x].light);
+            if(Math.abs(difftemp - tempstd[envData[x].id] ) > 5) {
+                var currtime =  new Date().getTime();
+                var isDuplicated = false;
+                for( var y=0; y<warningData.length; y++){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'temp' && (currtime - warningData[y].timestamp) < 60000 ){
+                        isDuplicated = true;
+                    }
+                }
+                if (!isDuplicated) {
+                    warningData.push({
+                        id: envData[x].id,
+                        type: 'temp',
+                        msg: 'Sensor ' + envData[x].name +' has rapid change on temperature.',
+                        timestamp: currtime
+                    });
+                }
+            }
+
+            if(Math.abs(diffhumi - humistd[envData[x].id] ) > 5) {
+                var currtime =  new Date().getTime();
+                var isDuplicated = false;
+                for( var y=0; y<warningData.length; y++){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'humi' && (currtime - warningData[y].timestamp) < 60000 ){
+                        isDuplicated = true;
+                    }
+                }
+                if (!isDuplicated) {
+                    warningData.push({
+                        id: envData[x].id,
+                        type: 'humi',
+                        msg: 'Sensor ' + envData[x].name +' has rapid change on humidity.',
+                        timestamp: currtime
+                    });
+                }
+
+            }
+
+            if(Math.abs(diffnoise - noisestd[envData[x].id] ) > 25) {
+                var currtime =  new Date().getTime();
+                var isDuplicated = false;
+                for( var y=0; y<warningData.length; y++){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'noise' && (currtime - warningData[y].timestamp) < 60000 ){
+                        isDuplicated = true;
+                    }
+                }
+                if (!isDuplicated) {
+                    warningData.push({
+                        id: envData[x].id,
+                        type: 'noise',
+                        msg: 'Sensor ' + envData[x].name +' has rapid change on noise level.',
+                        timestamp: currtime
+                    });
+                }
+
+            }
+
+            if(Math.abs(difflight - lightstd[envData[x].id] ) > 500) {
+                var currtime =  new Date().getTime();
+                var isDuplicated = false;
+                for( var y=0; y<warningData.length; y++){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'light' && (currtime - warningData[y].timestamp) < 60000 ){
+                        isDuplicated = true;
+                    }
+                }
+                if (!isDuplicated) {
+                    warningData.push({
+                        id: envData[x].id,
+                        type: 'light',
+                        msg: 'Sensor ' + envData[x].name +' has rapid change on lighting.',
+                        timestamp: currtime
+                    });
+                }
+
+            }
+
+            if(hisEnv[envData[x].id]){
+                if(hisEnv[envData[x].id].length >= 600){
+                    hisEnv.shift();
+                }
+            }else{
+                hisEnv[envData[x].id] = [];
+            }
+
+            //hisEnv.push(envData[x]);
+            hisEnv[envData[x].id].push(envData[x]);
             envData.splice(x, 1);
+            console.log('herher');
+            console.log(envData);
         }
     }     
     envData.push(data);
@@ -184,57 +311,36 @@ app.get('/api/postEnvData', (req, res) => {
 
 app.get('/api/getHisLoc', (req, res) => {
     const hid = req.query.hid;
-    var resultArray = [];
-    for(var x=0; x<hisLoc.length; x++) 
-    {      
-        if(hisLoc[x].hid = hid){
-            resultArray.push(hisLoc[x]);
-        }
-    }     
+    if(!req.query.hid){
+        res.send(hisLoc);
+    }
 
-    res.send(resultArray);
+    res.send(hisLoc[req.query.hid]);
 });
 
 app.get('/api/getHisEnv', (req, res) => {
     const id = req.query.id;
-    var resultArray = [];
-    for(var x=0; x<hisEnv.length; x++) 
-    {      
-        if(hisEnv[x].hid = hid){
-            resultArray.push(hisEnv[x]);
-        }
-    }     
-    res.send(resultArray);
+    if(!req.query.id){
+        res.send(hisEnv);
+    }
+    res.send(hisEnv[req.query.id]);
 });
 
 app.delete('/api/delHisLoc', (req, res) => {
     const hid = req.query.hid;
-    var resultArray = [];
-    for(var x=0; x<hisLoc.length; x++) 
-    {      
-        if(hisLoc[x].hid = hid){
-            hisLoc.splice(x, 1);
-        }
-    }     
-
+    delete hisLoc.hid;
     res.send('Thanks Babe');
 });
 
 app.delete('/api/delHisEnv', (req, res) => {
-    const id = req.query.id;
-    var resultArray = [];
-    for(var x=0; x<hisEnv.length; x++) 
-    {      
-        if(hisEnv[x].hid = hid){
-            hisEnv.splice(x, 1);
-        }
-    }     
+    const id = req.query.id;  
+    delete hisEnv.id;
     res.send('Thanks Babe');
 });
 
 app.patch('/api/reset', (req, res) => {
-    hisLoc = [];
-    hisEnv = [];
+    hisLoc = {};
+    hisEnv = {};
     locationData = [];
     envData = [];
     res.send('Nothing left');
