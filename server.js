@@ -27,8 +27,8 @@ var dangerLevelClassifier = new limdu.classifiers.NeuralNetwork();
 console.log('training data');
 dangerLevelClassifier.trainBatch(trainningData);
 console.log('training finished');
-console.log(dangerLevelClassifier.classify({  lng: 33.74000, lat: -84.384110}));  // 0.99 - almost white
-console.log(dangerLevelClassifier.classify({ lng: 33.73900, lat: -84.384200}));  // 0.99 - almost white
+console.log(dangerLevelClassifier.classify({  lng: 33.74000, lat: -84.384110, temp:60, humi:40, noise: 40, light: 900}));  // 0.99 - almost white
+
 
 const app = express();
 const PORT = process.env.PORT || 3500;
@@ -219,7 +219,7 @@ app.post('/api/postUserLocation', (req, res) => {
             locationData.splice(x, 1);
         }
     }
-    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat})[0];
+    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envData[7007].temp || 60, humi: envData[7007].humi || 30, noise: envData[7007].noise || 40, light: envData[7007].light || 1000})[0];
     locationData.push(data);
     
     res.send('Thanks babe');
