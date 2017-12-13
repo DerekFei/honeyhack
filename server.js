@@ -186,6 +186,23 @@ app.get('/api/getAllWarnings', (req, res) => {
     res.send(warningData);
 });
 
+app.get('/api/postAllWarnings', (req, res) => {
+   warningData = [{
+        warningId: 'H231513145771047dan',
+        id: 'H230493',
+        type: 'danger',
+        msg: 'Kevin has been eating cookies for more than 30 min',
+        timestamp: '1513145771047'
+    },{
+        warningId: '2931513145771047temp',
+        id: '2939292',
+        type: 'temp',
+        msg: 'Master Sensor Humidity Changes Rapidly',
+        timestamp: '1513145771047'
+    }];
+    res.send('reset the warnings');
+});
+
 app.use('/api/dismissWarning', (req, res) => {
     if(!req.query.warningId){
         res.send('must provide a warning Id');
