@@ -36,8 +36,8 @@ var locationData = [{
     title: 'Meat Loaf Black Belt',
     manager: 'Derek Hsu',
     username:'Kevin Fei',
-    lng: 133.52921,
-    lat: 30.24231,
+    lng: -84.384000,
+    lat: 33.774000,
     timestamp: '1513145771047'
 },
 {
@@ -45,8 +45,8 @@ var locationData = [{
     title: 'Meat Loaf Black Belt',
     manager: 'Derek Hsu',
     username:'Kevin Fei',
-    lng: 133.51233,
-    lat: 30.11324,
+    lng: -84.383800,
+    lat: 33.774100,
     timestamp: '1513145771047'
 }];
 
