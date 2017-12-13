@@ -94,7 +94,6 @@ function envDeviationUnit() {
         
     }   
     Object.keys(hisEnv).forEach(function(key) {
-        console.log('Key : ' + key + ', Value : ' + hisEnv[key]);
         var tempArray = [];
         var humiArray = [];
         var noiseArray = [];
@@ -107,10 +106,12 @@ function envDeviationUnit() {
             lightArray.push(hisEnv[key][x].light);
         }
 
-        tempstd.key = math.std(tempArray);
-        humistd.key = math.std(humiArray);
-        noisestd.key = math.std(noiseArray);
-        lightstd.key = math.std(lightArray);
+        tempstd[key]= math.std(tempArray);
+        humistd[key] = math.std(humiArray);
+        noisestd[key] = math.std(noiseArray);
+        lightstd[key] = math.std(lightArray);
+
+        console.log(tempstd[key]);
     })
 }
 
@@ -214,14 +215,18 @@ app.get('/api/postEnvData', (req, res) => {
             const diffhumi = Math.abs(data.humi - envData[x].humi);
             const diffnoise = Math.abs(data.noise - envData[x].noise);
             const difflight = Math.abs(data.light - envData[x].light);
+            console.log(difftemp + 'diff');
+            console.log(tempstd[envData[x].id] + ' tempstd');
             if(Math.abs(difftemp - tempstd[envData[x].id] ) > 5) {
                 var currtime =  new Date().getTime();
                 var isDuplicated = false;
                 for( var y=0; y<warningData.length; y++){
                     if(warningData[y].id == envData[x].id && warningData[y].type == 'temp' && (currtime - warningData[y].timestamp) < 60000 ){
                         isDuplicated = true;
+                        console.log('set is Duplicated to true');
                     }
                 }
+                console.log(isDuplicated);
                 if (!isDuplicated) {
                     warningData.push({
                         id: envData[x].id,
