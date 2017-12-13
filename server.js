@@ -56,7 +56,7 @@ var envData = [{
     timestamp: '1513145771047'
 },
 {
-    id: '5313213',
+    id: '7007',
     name: 'Prod Line B',
     lng: 133.33333,
     lat: 23.44422,
@@ -174,6 +174,7 @@ app.use((req, res, next) => {
 
 
 app.get('/api/getAllLocations', (req, res) => {
+    console.log(locationData);
     res.send(locationData);
 });
 
@@ -236,7 +237,7 @@ app.post('/api/postUserLocation', (req, res) => {
             locationData.splice(x, 1);
         }
     }
-    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envData[7007].temp || 60, humi: envData[7007].humi || 30, noise: envData[7007].noise || 40, light: envData[7007].light || 1000})[0];
+    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envData[7007].temp , humi: envData[7007].humi, noise: envData[7007].noise , light: envData[7007].light})[0];
     locationData.push(data);
     
     res.send('Thanks babe');
