@@ -108,10 +108,30 @@ function envDeviationUnit() {
             lightArray.push(hisEnv[key][x].light);
         }
 
-        tempstd[key]= math.std(tempArray);
-        humistd[key] = math.std(humiArray);
-        noisestd[key] = math.std(noiseArray);
-        lightstd[key] = math.std(lightArray);
+        //std only calculate the last 20 values as the buffer window 
+        if(tempArray.length > 20){
+            tempstd[key]= math.std(tempArray.slice(tempArray.length - 20, -1));
+        } else {
+            tempstd[key]= math.std(tempArray);
+        }
+
+        if(humiArray.length > 20){
+            humistd[key]= math.std(humiArray.slice(humiArray.length - 20, -1));
+        } else {
+            humistd[key]= math.std(humiArray);
+        }
+
+        if(noiseArray.length > 20){
+            noisestd[key]= math.std(noiseArray.slice(noiseArray.length - 20, -1));
+        } else {
+            noisestd[key]= math.std(noiseArray);
+        }
+
+        if(lightArray.length > 20){
+            lightstd[key]= math.std(lightArray.slice(lightArray.length - 20, -1));
+        } else {
+            lightstd[key]= math.std(lightArray);
+        }
 
         console.log(tempstd[key]);
     })
