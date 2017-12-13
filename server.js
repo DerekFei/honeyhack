@@ -224,7 +224,7 @@ app.post('/api/postUserLocation', (req, res) => {
     //if the preivous data exist, push the previous data to the historical data
     for(var x=0; x<locationData.length; x++) 
     {      
-        if(locationData[x].hid = data.hid){
+        if(locationData[x].hid == data.hid){
             if(hisLoc[locationData[x].hid]){
                 if(hisLoc[locationData[x].hid].length >= 600){
                     hisEnv.shift();
@@ -237,7 +237,17 @@ app.post('/api/postUserLocation', (req, res) => {
             locationData.splice(x, 1);
         }
     }
-    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envData[7007].temp , humi: envData[7007].humi, noise: envData[7007].noise , light: envData[7007].light})[0];
+    var envTemp = 60;
+    var envHumi = 30;
+    var envNoise = 40;
+    var envLight = 1000;
+    for(var x=0; x<envData.length; x++) 
+    {      
+        if(envData[x].id == 7007){
+            
+        }
+    }
+    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat, temp: envTemp, humi: envHumi, noise: envNoise, light: envLight})[0];
     locationData.push(data);
     console.log("here");
     res.send('Thanks babe');
