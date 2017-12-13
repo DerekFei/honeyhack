@@ -24,9 +24,11 @@ var math = require('mathjs');
 var limdu = require('limdu');
 var trainningData = require('./traningData.js');
 var dangerLevelClassifier = new limdu.classifiers.NeuralNetwork();
-
+console.log('training data');
 dangerLevelClassifier.trainBatch(trainningData);
-    
+console.log('training finished');
+console.log(dangerLevelClassifier.classify({  lng: 33.74000, lat: -84.384110}));  // 0.99 - almost white
+console.log(dangerLevelClassifier.classify({ lng: 33.73900, lat: -84.384200}));  // 0.99 - almost white
 
 const app = express();
 const PORT = process.env.PORT || 3500;
@@ -38,15 +40,7 @@ var locationData = [{
     username:'Kevin Fei',
     lng: -84.384000,
     lat: 33.774000,
-    timestamp: '1513145771047'
-},
-{
-    hid: 'H230493',
-    title: 'Meat Loaf Black Belt',
-    manager: 'Derek Hsu',
-    username:'Kevin Fei',
-    lng: -84.383800,
-    lat: 33.774100,
+    safetyScore: '0.8520636359429048',
     timestamp: '1513145771047'
 }];
 
@@ -224,7 +218,8 @@ app.post('/api/postUserLocation', (req, res) => {
             hisLoc[locationData[x].id].push(locationData[x]);
             locationData.splice(x, 1);
         }
-    }   
+    }
+    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat});
     locationData.push(data);
     
     res.send('Thanks babe');
