@@ -68,11 +68,13 @@ var envData = [{
 }];
 
 var warningData = [{
+    warningId: 'H231513145771047dan',
     id: 'H230493',
     type: 'danger',
     msg: 'Kevin has been eating cookies for more than 30 min',
     timestamp: '1513145771047'
 },{
+    warningId: '2931513145771047temp',
     id: '2939292',
     type: 'temp',
     msg: 'Master Sensor Humidity Changes Rapidly',
@@ -164,8 +166,17 @@ app.get('/api/getAllWarnings', (req, res) => {
     res.send(warningData);
 });
 
-app.get('/api/getDismissWarnings', (req, res) => {
-    res.send(warningData);
+app.post('/api/dismissWarning', (req, res) => {
+    if(!req.query.warningId){
+        res.send('must provide a warning Id');
+    }
+    for( var x = 0; x<warningData.length;x++){
+        if(warningData[x].warningId == req.query.warningId){
+            warningData.splice(x, 1);
+            res.send('dismissed the warning' + req.query.warningId);
+        }
+    }
+    res.send('cannot find the warning id' + req.query.warningId);
 });
 
 
@@ -221,7 +232,7 @@ app.get('/api/postEnvData', (req, res) => {
                 var currtime =  new Date().getTime();
                 var isDuplicated = false;
                 for( var y=0; y<warningData.length; y++){
-                    if(warningData[y].id == envData[x].id && warningData[y].type == 'temp' && (currtime - warningData[y].timestamp) < 60000 ){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'temp' && (currtime - warningData[y].timestamp) < 120000 ){
                         isDuplicated = true;
                         console.log('set is Duplicated to true');
                     }
@@ -229,6 +240,7 @@ app.get('/api/postEnvData', (req, res) => {
                 console.log(isDuplicated);
                 if (!isDuplicated) {
                     warningData.push({
+                        warningId: envData[x].id + currtime + 'temp',
                         id: envData[x].id,
                         type: 'temp',
                         msg: 'Sensor ' + envData[x].name +' has rapid change on temperature.',
@@ -241,12 +253,13 @@ app.get('/api/postEnvData', (req, res) => {
                 var currtime =  new Date().getTime();
                 var isDuplicated = false;
                 for( var y=0; y<warningData.length; y++){
-                    if(warningData[y].id == envData[x].id && warningData[y].type == 'humi' && (currtime - warningData[y].timestamp) < 60000 ){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'humi' && (currtime - warningData[y].timestamp) < 120000 ){
                         isDuplicated = true;
                     }
                 }
                 if (!isDuplicated) {
                     warningData.push({
+                        warningId: envData[x].id + currtime + 'humi',
                         id: envData[x].id,
                         type: 'humi',
                         msg: 'Sensor ' + envData[x].name +' has rapid change on humidity.',
@@ -260,12 +273,13 @@ app.get('/api/postEnvData', (req, res) => {
                 var currtime =  new Date().getTime();
                 var isDuplicated = false;
                 for( var y=0; y<warningData.length; y++){
-                    if(warningData[y].id == envData[x].id && warningData[y].type == 'noise' && (currtime - warningData[y].timestamp) < 60000 ){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'noise' && (currtime - warningData[y].timestamp) < 120000 ){
                         isDuplicated = true;
                     }
                 }
                 if (!isDuplicated) {
                     warningData.push({
+                        warningId: envData[x].id + currtime + 'noise',
                         id: envData[x].id,
                         type: 'noise',
                         msg: 'Sensor ' + envData[x].name +' has rapid change on noise level.',
@@ -279,12 +293,13 @@ app.get('/api/postEnvData', (req, res) => {
                 var currtime =  new Date().getTime();
                 var isDuplicated = false;
                 for( var y=0; y<warningData.length; y++){
-                    if(warningData[y].id == envData[x].id && warningData[y].type == 'light' && (currtime - warningData[y].timestamp) < 60000 ){
+                    if(warningData[y].id == envData[x].id && warningData[y].type == 'light' && (currtime - warningData[y].timestamp) < 120000 ){
                         isDuplicated = true;
                     }
                 }
                 if (!isDuplicated) {
                     warningData.push({
+                        warningId: envData[x].id + currtime + 'light',
                         id: envData[x].id,
                         type: 'light',
                         msg: 'Sensor ' + envData[x].name +' has rapid change on lighting.',
