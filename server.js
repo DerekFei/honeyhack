@@ -32,7 +32,7 @@ var locationData = [{
     username:'Kevin Fei',
     lng: 133.52921,
     lat: 30.24231,
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 },
 {
     hid: 'H230493',
@@ -41,7 +41,7 @@ var locationData = [{
     username:'Kevin Fei',
     lng: 133.51233,
     lat: 30.11324,
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 }];
 
 var envData = [{
@@ -53,7 +53,7 @@ var envData = [{
     humi: 35,
     noise: 65,
     light: 3000,
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 },
 {
     id: '5313213',
@@ -64,19 +64,19 @@ var envData = [{
     humi: 39,
     noise: 35,
     light: 2000,
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 }];
 
 var warningData = [{
     id: 'H230493',
     type: 'danger',
     msg: 'Kevin has been eating cookies for more than 30 min',
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 },{
     id: '2939292',
     type: 'temp',
     msg: 'Master Sensor Humidity Changes Rapidly',
-    timestamp: '2017-12-13 13:20:21'
+    timestamp: '1513145771047'
 }];
 
 var hisLoc = {};
