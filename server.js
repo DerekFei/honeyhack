@@ -25,7 +25,7 @@ var limdu = require('limdu');
 var trainningData = require('./traningData.js');
 var dangerLevelClassifier = new limdu.classifiers.NeuralNetwork();
 
-colorClassifier.trainBatch(trainningData);
+dangerLevelClassifier.trainBatch(trainningData);
     
 
 const app = express();
