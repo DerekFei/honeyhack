@@ -207,19 +207,19 @@ app.post('/api/postUserLocation', (req, res) => {
     for(var x=0; x<locationData.length; x++) 
     {      
         if(locationData[x].hid = data.hid){
-            if(hisLoc[locationData[x].id]){
-                if(hisLoc[locationData[x].id].length >= 600){
+            if(hisLoc[locationData[x].hid]){
+                if(hisLoc[locationData[x].hid].length >= 600){
                     hisEnv.shift();
                 }
             }else{
-                hisLoc[locationData[x].id] = [];
+                hisLoc[locationData[x].hid] = [];
             }
 
-            hisLoc[locationData[x].id].push(locationData[x]);
+            hisLoc[locationData[x].hid].push(locationData[x]);
             locationData.splice(x, 1);
         }
     }
-    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat});
+    data.safetyScore = dangerLevelClassifier.classify({ lng: data.lng, lat: data.lat})[0];
     locationData.push(data);
     
     res.send('Thanks babe');
